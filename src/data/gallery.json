@@ -41,6 +41,13 @@
       "caption": "sleepy cat",
       "date": "2025.11.20",
       "size": "small"
+    },
+    {
+      "src": "/images/uploads/sunp0019.jpg",
+      "alt": "snowy house",
+      "caption": "elm st",
+      "date": "2025.01.06",
+      "size": "small"
     }
   ]
 }
