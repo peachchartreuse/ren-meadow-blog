@@ -1,0 +1,38 @@
+/* Import fonts - we'll use Google Fonts for the script font */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Color variables for easy theming */
+  --cream: #f5f1e8;
+  --brown: #4a3425;
+  --warm-brown: #6b4e3d;
+  --pink: #d4a5a5;
+  --muted-pink: #e8c5c5;
+  --grey-blue: #8b9aaa;
+  --dark-grey: #5a6570;
+}
+
+body {
+  font-family: 'Crimson Text', serif;
+  color: var(--brown);
+  background-color: var(--cream);
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

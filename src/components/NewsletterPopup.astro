@@ -1,0 +1,180 @@
+---
+// Newsletter popup component
+---
+
+<div id="newsletter-popup" class="newsletter-popup">
+  <div class="popup-overlay"></div>
+  <div class="cloud-popup">
+    <button class="close-popup">&times;</button>
+    <div class="popup-content">
+      <p>If you want a no-more-than once-weekly email recap of this and that...</p>
+      <form class="newsletter-form" action="#" method="POST">
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Email address" 
+          required 
+        />
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  .newsletter-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .newsletter-popup.active {
+    display: flex;
+  }
+
+  .popup-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .cloud-popup {
+    position: relative;
+    background: linear-gradient(135deg, #f5f1e8 0%, #fffef7 100%);
+    padding: 3rem 4rem;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    z-index: 10000;
+    animation: floatIn 0.5s ease-out;
+  }
+
+  @keyframes floatIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .close-popup {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--brown);
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+  }
+
+  .close-popup:hover {
+    opacity: 1;
+  }
+
+  .popup-content {
+    text-align: center;
+  }
+
+  .popup-content p {
+    font-size: 1.1rem;
+    color: var(--brown);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .newsletter-form input {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--muted-pink);
+    border-radius: 4px;
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    background: white;
+  }
+
+  .newsletter-form input:focus {
+    outline: none;
+    border-color: var(--pink);
+  }
+
+  .newsletter-form button {
+    padding: 0.75rem 2rem;
+    background-color: var(--grey-blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: underline;
+  }
+
+  .newsletter-form button:hover {
+    background-color: var(--dark-grey);
+  }
+</style>
+
+<script>
+  const popup = document.getElementById('newsletter-popup');
+  const closeBtn = document.querySelector('.close-popup');
+  const overlay = document.querySelector('.popup-overlay');
+  const newsletterLink = document.getElementById('newsletter-link');
+
+  // Show popup when "Stay in touch" is clicked
+  newsletterLink?.addEventListener('click', (e) => {
+    e.preventDefault();
+    popup?.classList.add('active');
+  });
+
+  // Close popup when X is clicked
+  closeBtn?.addEventListener('click', () => {
+    popup?.classList.remove('active');
+  });
+
+  // Close popup when overlay is clicked
+  overlay?.addEventListener('click', () => {
+    popup?.classList.remove('active');
+  });
+
+  // Close popup on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && popup?.classList.contains('active')) {
+      popup.classList.remove('active');
+    }
+  });
+
+  // Handle form submission
+  const form = document.querySelector('.newsletter-form');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = form.querySelector('input[type="email"]').value;
+    
+    // For now, just show an alert. Later you'll connect this to an email service
+    alert(`Thanks for subscribing with ${email}! (This will be connected to an email service when deployed)`);
+    
+    popup?.classList.remove('active');
+    form.reset();
+  });
+</script>

@@ -1,0 +1,213 @@
+---
+import '../styles/global.css';
+import NewsletterPopup from '../components/NewsletterPopup.astro';
+
+interface Props {
+  title: string;
+  theme?: 'cream' | 'brown' | 'grey-blue';
+}
+
+const { title, theme = 'cream' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+</head>
+<body class={`theme-${theme}`}>
+  <header>
+    <div class="header-content">
+      <a href="/" class="logo">Ren Meadow</a>
+      <nav>
+        <a href="/about">About</a>
+        <div class="dropdown">
+          <button class="dropdown-btn">Read my journal</button>
+          <div class="dropdown-content">
+            <a href="/blog">All topics</a>
+            <a href="/blog/arts-crafts">Arts & crafts</a>
+            <a href="/blog/law-school">Law school</a>
+            <a href="/blog/media-reviews">Media reviews</a>
+            <a href="/blog/musings">Musings</a>
+            <a href="/blog/recipes">Recipes</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer>
+    <a href="https://youtube.com" target="_blank">YouTube</a>
+    <a href="#" id="newsletter-link">Stay in touch</a>
+    <div class="search-container">
+      <input type="search" placeholder="Search |" />
+    </div>
+  </footer>
+
+  
+
+  <NewsletterPopup />
+</body>
+
+
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Theme variations */
+  .theme-cream {
+    background-color: var(--cream);
+  }
+
+  .theme-brown {
+    background-color: var(--brown);
+    color: var(--cream);
+  }
+
+  .theme-grey-blue {
+    background-color: var(--grey-blue);
+    color: var(--cream);
+  }
+
+  header {
+    padding: 2rem 4rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem;
+    color: var(--brown);
+    font-weight: 400;
+  }
+
+  .theme-brown .logo,
+  .theme-grey-blue .logo {
+    color: var(--muted-pink);
+  }
+
+  nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    font-size: 1.2rem;
+  }
+
+  nav > a {
+    color: var(--pink);
+    transition: opacity 0.3s;
+  }
+
+  nav > a:hover {
+    opacity: 0.7;
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-btn {
+    background-color: var(--grey-blue);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+
+  .dropdown-btn:hover {
+    background-color: var(--dark-grey);
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--grey-blue);
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .dropdown-content a {
+    color: white;
+    padding: 1rem 1.5rem;
+    display: block;
+    transition: background-color 0.3s;
+  }
+
+  .dropdown-content a:hover {
+    background-color: var(--dark-grey);
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  main {
+    flex: 1;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 3rem 4rem;
+  }
+
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  footer a {
+    color: var(--pink);
+    font-size: 1.1rem;
+    transition: opacity 0.3s;
+  }
+
+  footer a:hover {
+    opacity: 0.7;
+  }
+
+  .search-container {
+    margin-left: auto;
+  }
+
+  .search-container input {
+    background-color: var(--muted-pink);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.1rem;
+    width: 300px;
+  }
+
+  .search-container input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+</style>
+</html>
