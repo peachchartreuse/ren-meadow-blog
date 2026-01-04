@@ -19,3 +19,20 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image", required: false }
       - { label: "Excerpt", name: "excerpt", widget: "text", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "gallery"
+    label: "Gallery"
+    files:
+      - name: "images"
+        label: "Gallery Images"
+        file: "src/data/gallery.json"
+        fields:
+          - label: "Images"
+            name: "images"
+            widget: "list"
+            fields:
+              - { label: "Image", name: "src", widget: "image" }
+              - { label: "Alt Text", name: "alt", widget: "string" }
+              - { label: "Caption", name: "caption", widget: "string" }
+              - { label: "Date", name: "date", widget: "string", pattern: ['^\d{4}\.\d{2}\.\d{2}$', "Must be in format YYYY.MM.DD"], hint: "Format: YYYY.MM.DD" }
+              - { label: "Size", name: "size", widget: "select", options: ["small", "medium", "large"], default: "small" }

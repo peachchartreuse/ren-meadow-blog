@@ -1,51 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import galleryData from '../data/gallery.json';
 
-const galleryImages = [
-  {
-    src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
-    alt: 'Beach sunset',
-    caption: 'we went bowling',
-    date: '2025.12.21'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=800',
-    alt: 'Dried orange slices',
-    caption: 'dried oranges',
-    date: '2025.12.15'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800',
-    alt: 'White flowers',
-    caption: 'garden flowers',
-    date: '2025.12.10'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800',
-    alt: 'Clouds',
-    caption: 'afternoon sky',
-    date: '2025.12.05'
-  }
-];
+const galleryImages = galleryData.images;
 ---
 
 <Layout title="Ren Meadow - Photo Gallery" theme="grey-blue">
   <div class="gallery-container">
-    <div class="gallery-grid">
+    <div class="gallery-scroll">
       {galleryImages.map((image, index) => (
-        <div class="gallery-item" data-index={index}>
+        <div class={`gallery-item size-${image.size}`} data-index={index}>
           <img src={image.src} alt={image.alt} />
-          <div class="image-overlay">
-            <p class="image-caption">{image.caption}</p>
-            <p class="image-date">{image.date}</p>
-          </div>
         </div>
       ))}
-    </div>
-
-    <div class="gallery-nav">
-      <button class="nav-arrow" id="prev-arrow">&lt;</button>
-      <button class="nav-arrow" id="next-arrow">&gt;</button>
     </div>
   </div>
 
@@ -63,82 +30,75 @@ const galleryImages = [
 </Layout>
 
 <style>
-  .gallery-container {
-    max-width: 1400px;
-    margin: 0 auto;
+  /* Override main padding for gallery page */
+  :global(main) {
+    padding: 0.5rem 0 !important;
+    max-width: 100% !important;
   }
 
-  .gallery-grid {
+  .gallery-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
+    height: calc(100vh - 180px); /* Fill most of viewport height */
+    display: flex;
+    align-items: center;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .gallery-container::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .gallery-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .gallery-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+  }
+
+  .gallery-scroll {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 3rem;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, minmax(350px, 45vh));
+    gap: 0.25rem;
+    padding: 0 0.25rem;
+    width: max-content;
+    height: 100%;
   }
 
   .gallery-item {
     position: relative;
     overflow: hidden;
-    border-radius: 8px;
     cursor: pointer;
-    aspect-ratio: 4/3;
+    background: #000;
+  }
+
+  /* Different sizes for masonry effect */
+  .size-small {
+    grid-row: span 1;
+    width: 400px;
+  }
+
+  .size-medium {
+    grid-row: span 1;
+    width: 500px;
+  }
+
+  .size-large {
+    grid-row: span 2;
+    width: 550px;
   }
 
   .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s;
-  }
-
-  .gallery-item:hover img {
-    transform: scale(1.05);
-  }
-
-  .image-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-    padding: 1.5rem;
-    color: white;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .gallery-item:hover .image-overlay {
-    opacity: 1;
-  }
-
-  .image-caption {
-    font-size: 1.1rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .image-date {
-    font-size: 0.9rem;
-    opacity: 0.9;
-  }
-
-  .gallery-nav {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    margin-top: 2rem;
-  }
-
-  .nav-arrow {
-    background: none;
-    border: none;
-    font-size: 3rem;
-    color: var(--brown);
-    cursor: pointer;
-    padding: 0.5rem 1.5rem;
-    transition: opacity 0.3s;
-  }
-
-  .nav-arrow:hover {
-    opacity: 0.6;
+    object-position: center;
+    display: block;
   }
 
   /* Lightbox styles */
@@ -220,24 +180,10 @@ const galleryImages = [
   const nextBtn = document.querySelector('.lightbox-next');
 
   let currentIndex = 0;
-  const images = [
-    {
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200',
-      caption: 'we went bowling / 2025.12.21'
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=1200',
-      caption: 'dried oranges / 2025.12.15'
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1200',
-      caption: 'garden flowers / 2025.12.10'
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1200',
-      caption: 'afternoon sky / 2025.12.05'
-    }
-  ];
+  const images = JSON.parse(`${JSON.stringify(galleryImages.map(img => ({
+    src: img.src.replace('?w=800', '?w=1200'),
+    caption: `${img.caption} / ${img.date}`
+  })))}`);
 
   function openLightbox(index) {
     currentIndex = index;
