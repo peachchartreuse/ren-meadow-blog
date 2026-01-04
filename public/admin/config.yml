@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: peachcharteuse/ren-meadow-blog
+  repo: peachchartreuse/ren-meadow-blog
   branch: main
 
 media_folder: "public/images/uploads"
